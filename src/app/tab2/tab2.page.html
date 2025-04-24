@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      {{workout?.title}}
+     Workout Details
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -9,33 +9,54 @@
 <ion-content>
   <ion-card>
     <ion-header>
-      <ion-card-title> {{workout?.title}}</ion-card-title>
-      <ion-card-subtitle>{{workout?.duration}}</ion-card-subtitle>
+      <ion-card-title> 
+        <h1>{{workout?.title}}</h1>
+      </ion-card-title>
     </ion-header>
 
     <ion-card-content>
-      <p>{{workout?.description}}</p>
 
-      <ion-list>
-        <ion-list-header>Exercises</ion-list-header>
+        <ion-list lines="none">
+          <ion-list-header>
+            <h2>Workout description:</h2>
+          </ion-list-header>
+          <ion-item>{{workout?.description}}</ion-item>
+        </ion-list>
+
+        <ion-list lines="none">
+          <ion-list-header>
+            <h2>Duration</h2>
+          </ion-list-header>
+          <ion-item>{{workout?.duration}}</ion-item>
+        </ion-list>
+
+      <ion-list lines="none">
+        <ion-list-header>
+          <h2>Exercises</h2> 
+        </ion-list-header>
         <ion-item *ngFor="let exercise of workout?.exercises">
           <ion-label>{{exercise}}</ion-label>
         </ion-item>
       </ion-list>
 
-      <ion-list>
-        <ion-list-header>Equipment</ion-list-header>
+      <ion-list lines="none">
+        <ion-list-header> 
+          <h2>Equipment</h2>
+        </ion-list-header>
         <ion-item *ngFor="let tool of workout?.equipment">
           <ion-label>{{tool}}</ion-label>
         </ion-item>
       </ion-list>
       
-      <ion-button expand="block" color="success" (click)="markAsCompleted()" [disabled]="workout?.isCompleted">
+      <ion-button expand="block" color="tertiary" (click)="markAsCompleted()" [disabled]="workout?.isCompleted">
         {{workout?.isCompleted ? 'Completed' : 'Mark as Completed'}}
       </ion-button>
     </ion-card-content>
   </ion-card>
 
-  <ion-button (click)="backHome()" >Back to Workouts</ion-button>
+  <section class="buttons-wrapper">
+    <ion-button fill="outline" (click)="backHome()" >Back to Workouts</ion-button>
   <ion-button (click)="viewProgress()"> Track Progress</ion-button>
+  </section>
+
 </ion-content>

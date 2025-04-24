@@ -1,0 +1,27 @@
+.buttons-wrapper{
+   margin: 0 20px;
+   display: flex;
+   justify-content: space-between;
+
+   ion-button{
+    flex: 0 0 50%;
+   }
+}
+
+ion-card{
+    
+    h2{
+        font-size: 20px;
+        font-weight: bold;
+    }
+    ion-card-title{
+        padding: 5px;
+        text-align: center;
+        h1{
+            font-size: 25px;
+        }
+    }
+    ion-item{
+        --padding-start: 30px;
+    }
+}
