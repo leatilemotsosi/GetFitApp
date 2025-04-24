@@ -4,9 +4,6 @@
     transition: color 0.2s, outline 0.2s;
     
     &:hover {
-      color: #3880ff; // Ionic's primary blue color
-      outline: 1px solid #3880ff;
-      outline-offset: 1px;
-      border-radius: 4px;
+      color: #3880ff;
     }
   }
