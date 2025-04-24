@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { NavController } from '@ionic/angular';
+import { WorkoutProgram, WorkoutService } from '../services/workout.service';
 
 @Component({
   selector: 'app-tab1',
@@ -6,8 +8,17 @@ import { Component } from '@angular/core';
   styleUrls: ['tab1.page.scss'],
   standalone: false,
 })
-export class Tab1Page {
+export class Tab1Page implements OnInit {
 
-  constructor() {}
+  workoutPrograms: WorkoutProgram[] = [];
 
+  constructor(private workoutService: WorkoutService, private navController: NavController) {}
+
+  ngOnInit() {
+    this.workoutPrograms = this.workoutService.getWorkoutPrograms();
+  }
+
+  showWorkoutDetails(id: number){
+    this.navController.navigateForward(`/tabs/tab2/${id}`);
+  }
 }
