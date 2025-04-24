@@ -1,17 +1,33 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Tab 3
+      My Progress
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 3</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
 
-  <app-explore-container name="Tab 3 page"></app-explore-container>
+  <ion-card>
+    <ion-card-content *ngIf="completedWorkouts.length ===0">
+      No workouts completed yet.
+    </ion-card-content>
+  </ion-card>
+
+  <ion-list *ngIf="completedWorkouts.length > 0">
+    <ion-list-header>
+      Completed Workouts
+    </ion-list-header>
+    <ion-item *ngFor="let cw of completedWorkouts">
+      <ion-label>
+        <h2>{{cw.title}}</h2>
+        <p>{{cw.duration}}</p>
+      </ion-label>
+      <ion-icon color="red" name="arrow-undo-outline"></ion-icon>
+      <ion-button color="danger" (click)="resetWorkoutProgress(cw.id)">Reset</ion-button>
+    </ion-item>
+  </ion-list>
+
+  <ion-button expand="block" color="danger" (click)="resetEntireProgress()">Reset All Workout Progress</ion-button>
+  <ion-button (click)="backHome()" >Back to Workouts</ion-button>
 </ion-content>
