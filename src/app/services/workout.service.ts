@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Storage } from '@ionic/storage-angular';
 
 export interface WorkoutProgram{
   id: number;
@@ -62,7 +63,16 @@ export class WorkoutService {
     }
   ]
 
-  constructor() { }
+  private _storage: Storage | null = null;
+  private STORAGE_KEY = "completedWorkouts";
+
+  constructor(private storage: Storage) { 
+    this.init();
+  }
+
+  async init(){
+    this._storage = await this.storage.create();
+  }
 
   getWorkoutPrograms(): WorkoutProgram[]{
     return this.workouts;
@@ -72,10 +82,27 @@ export class WorkoutService {
     return this.workouts.find(w => w.id === id);
   }
 
-  completeWorkout(id: number): void {
-    const workout = this.getWorkoutById(id);
-    if(workout){
-      workout.isCompleted = true;
+  async completeWorkout(id: number): Promise<void> {
+    let completedWorkouts = await this._storage?.get(this.STORAGE_KEY) || [];
+
+    if(!completedWorkouts.includes(id)){
+      //workout.isCompleted = true;
+      completedWorkouts.push(id);
+      await this._storage?.set(this.STORAGE_KEY, completedWorkouts);
     }
+  }
+
+  async getCompletedWorkoutIds(): Promise<number[]>{
+    return (await this._storage?.get(this.STORAGE_KEY)) || []
+  }
+
+  async resetProgress(): Promise<void>{
+    await this._storage?.set(this.STORAGE_KEY, []);
+  }
+
+  async resetWorkoutProgress(id: number): Promise<void>{
+    let completedWorkouts = await this._storage?.get(this.STORAGE_KEY) || [];
+    completedWorkouts = completedWorkouts.filter((workoutId: number) => workoutId !== id);
+    await this._storage?.set(this.STORAGE_KEY, completedWorkouts);
   }
 }
