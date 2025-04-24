@@ -25,11 +25,15 @@ export class Tab2Page {
   markAsCompleted(){
     if (this.workout){
       this.workoutService.completeWorkout(this.workout.id);
-      this.workout.isCompleted = true;
+      this.workout.isCompleted = true;      
     }
   }
 
   backHome(){
-    this.navController.navigateBack('/tabs/tab1')
+    this.navController.navigateForward('/tabs/tab1');
+  }
+
+  viewProgress(){
+    this.navController.navigateForward('/tabs/tab3');
   }
 }
