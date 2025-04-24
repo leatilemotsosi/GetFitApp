@@ -22,6 +22,13 @@
           <ion-label>{{exercise}}</ion-label>
         </ion-item>
       </ion-list>
+
+      <ion-list>
+        <ion-list-header>Equipment</ion-list-header>
+        <ion-item *ngFor="let tool of workout?.equipment">
+          <ion-label>{{tool}}</ion-label>
+        </ion-item>
+      </ion-list>
       
       <ion-button expand="block" color="success" (click)="markAsCompleted()" [disabled]="workout?.isCompleted">
         {{workout?.isCompleted ? 'Completed' : 'Mark as Completed'}}
