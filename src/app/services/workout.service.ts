@@ -96,6 +96,11 @@ export class WorkoutService {
     return (await this._storage?.get(this.STORAGE_KEY)) || []
   }
 
+  async isWorkoutCompleted(id: number): Promise<boolean> {
+    const completed = await this._storage?.get('completedWorkouts');
+    return completed ? completed.includes(id) : false;
+  }  
+
   async resetProgress(): Promise<void>{
     await this._storage?.set(this.STORAGE_KEY, []);
   }

@@ -15,12 +15,17 @@ export class Tab2Page {
 
   constructor(private route: ActivatedRoute, private workoutService: WorkoutService, private navController: NavController) {}
 
-  ngOnInit(){
+  async ionViewWillEnter() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
-    if (id){
+    if (id) {
       this.workout = this.workoutService.getWorkoutById(id);
+      const isCompleted = await this.workoutService.isWorkoutCompleted(id);
+      if (this.workout) {
+        this.workout.isCompleted = isCompleted;
+      }
     }
   }
+  
 
   markAsCompleted(){
     if (this.workout){
