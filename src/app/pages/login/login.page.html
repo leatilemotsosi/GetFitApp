@@ -24,7 +24,7 @@
           <ion-button expand="block" class="primary" (click)="loginOrSignup()">
             {{ isSignup ? 'Sign Up' : 'Login' }}
           </ion-button>
-          <p (click)="toggleMode()" style="cursor: pointer; color: #3880ff;">
+          <p (click)="toggleMode()">
             {{ isSignup ? 'Already have an account? Log in' : "Don't have an account? Sign up now" }}
           </p>
           <div class="error">{{errorMsg}}</div>

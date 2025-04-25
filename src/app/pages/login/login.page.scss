@@ -10,3 +10,10 @@ ion-item{
     text-align: center;
     padding:8px 10px ;
 }
+.button-wrapper > p{
+    cursor: pointer;     
+}
+
+.button-wrapper >p:hover{
+    color: #3880ff;
+} 
