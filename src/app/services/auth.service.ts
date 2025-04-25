@@ -29,7 +29,7 @@ export class AuthService {
     users.push({ email, password });
     await this.storage.set('users', users);
   
-    //Auto login after signup
+    
     this.token = 'dummy-token';
     this.isAuthenticated = true;
     await this.storage.set('auth-token', this.token);
