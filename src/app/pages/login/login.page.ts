@@ -12,34 +12,51 @@ export class LoginPage {
   email:string ='';
   password: string ='';
   errorMsg: string ='';
+  isSignup: boolean = false;
 
   constructor(private auth: AuthService, private router: Router) { }
 
-  async login(){
-    if(this.email.trim().length === 0 && this.password.trim().length ===0){
+  async loginOrSignup() {
+  
+    if (this.email.trim().length === 0 && this.password.trim().length === 0) {
       this.errorMsg = 'Please provide login credentials';
-    }
-    else if(this.email.trim().length === 0){
+      return;
+    } 
+    else if (this.email.trim().length === 0) {
       this.errorMsg = 'Please enter an email address';
-    }
-    else if(this.password.trim().length === 0){
+      return;
+    } 
+    else if (this.password.trim().length === 0) {
       this.errorMsg = 'Please enter a password';
+      return;
     }
-    else{
-      try{
-        const resp = await this.auth.login(this.email, this.password);
-        if(resp == true){
-          this.router.navigate(['/tabs/tab1'], {replaceUrl: true});
+  
+    try {
+      if (this.isSignup) {
+        const result = await this.auth.signup(this.email, this.password);
+        if (result) {
+          this.router.navigate(['/tabs/tab1'], { replaceUrl: true });
         }
-        else{
+      } 
+      else {
+        const result = await this.auth.login(this.email, this.password);
+        if (result) {
+          this.router.navigate(['/tabs/tab1'], { replaceUrl: true });
+        } 
+        else {
           this.errorMsg = 'Invalid login credentials';
         }
       }
-      catch(error){
-        console.error('Login error: ', error);
-        this.errorMsg = 'An error occurred while trying to log you in. Please try again later';
-      }
+    } 
+    catch (err) {
+      console.error('Auth error:', err);
+      this.errorMsg = this.isSignup ? 'Sign up failed.' : 'Login failed. Please try again.';
     }
+  }
+  
+  toggleMode(){
+    this.isSignup = !this.isSignup;
+    this.errorMsg = '';
   }
 
 }

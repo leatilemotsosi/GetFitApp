@@ -18,15 +18,40 @@ export class AuthService {
     this.isAuthenticated = !!this.token;
    }
 
-   async login(email: string, password: string): Promise<boolean>{
-    if(email === 'test@example.com' && password === 'test'){
+   async signup(email: string, password: string): Promise<boolean> {
+    const users = (await this.storage.get('users')) || [];
+  
+    const userExists = users.find((u: any) => u.email === email);
+    if (userExists) {
+      throw new Error('User already exists');
+    }
+  
+    users.push({ email, password });
+    await this.storage.set('users', users);
+  
+    //Auto login after signup
+    this.token = 'dummy-token';
+    this.isAuthenticated = true;
+    await this.storage.set('auth-token', this.token);
+  
+    return true;
+  }
+  
+
+  async login(email: string, password: string): Promise<boolean> {
+    const users = (await this.storage.get('users')) || [];
+    const user = users.find((u: any) => u.email === email && u.password === password);
+  
+    if (user) {
       this.token = 'dummy-token';
       this.isAuthenticated = true;
       await this.storage.set('auth-token', this.token);
       return true;
     }
+  
     return false;
-   }
+  }
+  
 
    async logout(){
     this.token = null;
